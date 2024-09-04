@@ -1,13 +1,11 @@
-const signUp = async() => {
+const signIn = async() => {
     const reqObject = {
-        first_name: document.getElementById("first_name").value,
-        last_name: document.getElementById("last_name").value,
         email: document.getElementById("email").value,
         password: document.getElementById("password").value,
     };
 
     const resp = await fetch(
-            "SignUp",
+            "SignIn",
             {
                 method: "POST",
                 body: JSON.stringify(reqObject),
@@ -19,9 +17,13 @@ const signUp = async() => {
     if (resp.ok) {
         const respObject = await resp.json();
         if (respObject.success) {
-            window.location = "verify-account.html";
+            window.location = "home.html";
         } else {
-            document.getElementById("message").innerHTML = respObject.content;
+            if (respObject.content === "Not Verified") {
+                window.location = "verify-account.html"
+            } else {
+                document.getElementById("message").innerHTML = respObject.content;
+            }
         }
     } else {
         document.getElementById("message").innerHTML = "Please try again later!";
