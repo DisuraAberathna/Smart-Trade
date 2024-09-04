@@ -57,7 +57,7 @@ public class SignUp extends HttpServlet {
             if (!criteria.list().isEmpty()) {
                 responseDTO.setContent("User with this email already exists");
             } else {
-                int code = (int) Math.random() * 1000000;
+                int code = (int) (Math.random() * 1000000);
 
                 User user = new User();
                 user.setEmail(userDTO.getEmail());
@@ -69,7 +69,7 @@ public class SignUp extends HttpServlet {
                 Thread sendMailThread = new Thread() {
                     @Override
                     public void run() {
-                        Mail.sendMail(userDTO.getEmail(), "Smart Trade Verification", "<h1> Your Verification Code:" + user.getVerification() + "</h1>");
+                        Mail.sendMail(userDTO.getEmail(), "Smart Trade Verification", "<h1> Your Verification Code: " + user.getVerification() + "</h1>");
                     }
                 };
                 sendMailThread.start();
