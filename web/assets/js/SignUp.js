@@ -18,8 +18,12 @@ const signUp = async() => {
 
     if (resp.ok) {
         const respObject = await resp.json();
-        console.log(respObject);
+        if (respObject) {
+            window.location = "verify-account.html";
+        } else {
+            document.getElementById("message").innerHTML = respObject.content;
+        }
     } else {
-        console.log("Promise Rejected");
+        document.getElementById("message").innerHTML = "Please try again later!";
     }
 };
