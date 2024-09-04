@@ -18,7 +18,7 @@ const signUp = async() => {
 
     if (resp.ok) {
         const respObject = await resp.json();
-        if (respObject) {
+        if (respObject.success) {
             window.location = "verify-account.html";
         } else {
             document.getElementById("message").innerHTML = respObject.content;
