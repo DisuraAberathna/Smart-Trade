@@ -76,6 +76,8 @@ public class SignUp extends HttpServlet {
 
                 session.save(user);
                 session.beginTransaction().commit();
+
+                req.getSession().setAttribute("email", userDTO.getEmail());
                 responseDTO.setSuccess(true);
                 responseDTO.setContent("Successfully registered. Please check your inbox for verification code!");
             }
@@ -83,6 +85,7 @@ public class SignUp extends HttpServlet {
             session.close();
         }
 
+        resp.setContentType("application/json");
         resp.getWriter().write(gson.toJson(responseDTO));
     }
 
