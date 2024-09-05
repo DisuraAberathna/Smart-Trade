@@ -48,7 +48,7 @@ public class SignIn extends HttpServlet {
             if (!criteria.list().isEmpty()) {
                 User user = (User) criteria.list().get(0);
                 
-                if (!user.getVerification().equals("verified")) {
+                if (!user.getVerification().equals("Verified")) {
                     req.getSession().setAttribute("email", userDTO.getEmail());
                     responseDTO.setContent("Not Verified");
                 } else {
