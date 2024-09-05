@@ -17,7 +17,7 @@ const signIn = async() => {
     if (resp.ok) {
         const respObject = await resp.json();
         if (respObject.success) {
-            window.location = "home.html";
+            window.location = "index.html";
         } else {
             if (respObject.content === "Not Verified") {
                 window.location = "verify-account.html"
