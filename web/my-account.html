@@ -29,7 +29,7 @@
     </head>
 
 
-    <body class="sticky-header">
+    <body class="sticky-header" onload="loadFeatures();">
         <!--[if lte IE 9]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
     <![endif]-->
@@ -241,53 +241,45 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label>Category</label>
-                                                            <select>
-                                                                <option>Data 1</option>
-                                                                <option>Data 2</option>
-                                                                <option>Data 3</option>
+                                                            <select id="category-select" onchange="updateModels();">
+                                                                <option value="0">Select</option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label>Model</label>
-                                                            <select>
-                                                                <option>Data 1</option>
-                                                                <option>Data 2</option>
-                                                                <option>Data 3</option>
+                                                            <select id="model-select">
+                                                                <option value="0">Select</option>
                                                             </select>
                                                         </div>
                                                     </div>                                                        
                                                     <div class="col-12">
                                                         <div class="form-group">
                                                             <label>Title</label>
-                                                            <input type="text" class="form-control" value="">
+                                                            <input type="text" class="form-control" id="title" value="">
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="form-group">
                                                             <label>Description</label>
-                                                            <textarea cols="1" rows="2"></textarea>
+                                                            <textarea cols="1" rows="2" id="description"></textarea>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label>Storage</label>
-                                                            <select>
-                                                                <option>Data 1</option>
-                                                                <option>Data 2</option>
-                                                                <option>Data 3</option>
+                                                            <select id="storage-select">
+                                                                <option value="0">Select</option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label>Color</label>
-                                                            <select>
-                                                                <option>Data 1</option>
-                                                                <option>Data 2</option>
-                                                                <option>Data 3</option>
+                                                            <select id="color-select">
+                                                                <option value="0">Select</option>
                                                             </select>
                                                         </div>
                                                     </div> 
@@ -295,9 +287,8 @@
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
                                                             <label>Condition</label>
-                                                            <select>
-                                                                <option>Data 1</option>
-                                                                <option>Data 2</option>
+                                                            <select id="condition-select">
+                                                                <option value="0">Select</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -305,34 +296,36 @@
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
                                                             <label>Price</label>
-                                                            <input type="text" class="form-control" pattern="^\d+(\.\d{2})?$" placeholder="0.00">
+                                                            <input type="text" class="form-control" id="price" pattern="^\d+(\.\d{2})?$" placeholder="0.00">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
                                                             <label>Quantity</label>
-                                                            <input type="number" class="form-control" min="1" value="1">
+                                                            <input type="number" class="form-control" id="qty" min="1" value="1">
                                                         </div>
                                                     </div> 
 
                                                     <div class="col-lg-4">
                                                         <label>Image 1</label>
-                                                        <input class="form-control b2" type="file" accept="image/*">
+                                                        <input class="form-control b2" type="file" id="image1" accept="image/*">
                                                     </div>
 
                                                     <div class="col-lg-4">
                                                         <label>Image 2</label>
-                                                        <input class="form-control b2" type="file" accept="image/*">
+                                                        <input class="form-control b2" type="file" id="image2" accept="image/*">
                                                     </div>
-                                                    
+
                                                     <div class="col-lg-4">
                                                         <label>Image 3</label>
-                                                        <input class="form-control b2" type="file" accept="image/*">
+                                                        <input class="form-control b2" type="file" id="image3" accept="image/*">
                                                     </div>
 
                                                     <div class="col-12">
                                                         <div class="form-group mb--0 mt--30 d-grid">
-                                                            <input type="submit" class="axil-btn" value="Add Product To Listing">
+                                                            <button type="button" onclick="productListing();" class="axil-btn" >
+                                                                Add Product To Listing    
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -738,6 +731,8 @@
 
         <!-- Main JS -->
         <script src="assets/js/main.js"></script>
+
+        <script src="assets/js/MyAccount.js"></script>
 
     </body>
 
