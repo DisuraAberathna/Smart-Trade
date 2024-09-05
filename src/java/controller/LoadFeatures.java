@@ -6,7 +6,6 @@ package controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import dto.ResponseDTO;
 import entity.Category;
 import entity.Color;
 import entity.Model;
@@ -42,19 +41,19 @@ public class LoadFeatures extends HttpServlet {
         List<Category> categoryList = criteria1.list();
 
         Criteria criteria2 = session.createCriteria(Model.class);
-        criteria2.addOrder(Order.asc(""));
+        criteria2.addOrder(Order.asc("name"));
         List<Model> modelList = criteria2.list();
 
         Criteria criteria3 = session.createCriteria(Color.class);
-        criteria3.addOrder(Order.asc(""));
+        criteria3.addOrder(Order.asc("name"));
         List<Color> colorList = criteria3.list();
 
         Criteria criteria4 = session.createCriteria(Storage.class);
-        criteria4.addOrder(Order.asc(""));
+        criteria4.addOrder(Order.asc("id"));
         List<Storage> storageList = criteria4.list();
 
         Criteria criteria5 = session.createCriteria(ProductCondition.class);
-        criteria5.addOrder(Order.asc(""));
+        criteria5.addOrder(Order.asc("name"));
         List<ProductCondition> conditionList = criteria5.list();
 
         JsonObject jsonObject = new JsonObject();
