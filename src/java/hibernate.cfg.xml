@@ -13,6 +13,14 @@
         <mapping class="entity.Model"/>
         <mapping class="entity.Color"/>
         <mapping class="entity.Storage"/>
-        <mapping class="entity.ProductCondition"/>
+        <mapping class="entity.Product_Condition"/>
+        <mapping class="entity.Product_Status"/>
+        <mapping class="entity.Product"/>
+        <mapping class="entity.Cart"/>
+        <mapping class="entity.City"/>
+        <mapping class="entity.Address"/>
+        <mapping class="entity.OrderStatus"/>
+        <mapping class="entity.Orders"/>
+        <mapping class="entity.OrderItem"/>
     </session-factory>
 </hibernate-configuration>

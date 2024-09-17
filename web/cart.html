@@ -25,12 +25,12 @@
         <link rel="stylesheet" href="assets/css/vendor/magnific-popup.css">
         <link rel="stylesheet" href="assets/css/vendor/base.css">
         <link rel="stylesheet" href="assets/css/style.min.css">
-        <link href="assets/css/notification.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="assets/css/notification.css">
 
     </head>
 
 
-    <body class="sticky-header" onload="loadFeatures();">
+    <body class="sticky-header" onload="loadCartItems();">
         <!--[if lte IE 9]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
     <![endif]-->
@@ -152,7 +152,7 @@
                                         <span class="title">QUICKLINKS</span>
                                         <ul>
                                             <li>
-                                                <a href="my-account.html">My Account</a>
+                                                <a href="#">My Account</a>
                                             </li>
                                             <li>
                                                 <a href="#">Support</a>
@@ -181,284 +181,73 @@
         </header>
         <!-- End Header -->
 
-        <main class="main-wrapper">
-            <!-- Start Breadcrumb Area  -->
-            <div class="axil-breadcrumb-area pb--20">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="inner">
-                                <ul class="axil-breadcrumb">
-                                    <li class="axil-breadcrumb-item"><a href="index.html">Home</a></li>
-                                    <li class="separator"></li>
-                                    <li class="axil-breadcrumb-item active" aria-current="page">My Account</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Breadcrumb Area  -->
+        <main class="main-wrapper" id="cart-main">
 
-            <!-- Start My Account Area  -->
-            <div class="axil-dashboard-area mt--30 mb--50">
+            <!-- Start Cart Area  -->
+            <div class="axil-product-cart-area axil-section-gap">
                 <div class="container">
-                    <div class="axil-dashboard-warp">
-                        <div class="axil-dashboard-author">
-                            <div class="media">
-                                <div class="thumbnail">
-                                    <img src="./assets/images/avatar.png" alt="Hello Annie">
-                                </div>
-                                <div class="media-body">
-                                    <h5 class="title mb-0">Hello Name</h5>
-                                    <span class="joining-date">Smart Trade Member Since Sep 2024</span>
-                                </div>
-                            </div>
+                    <div class="axil-product-cart-wrap">
+                        <div class="product-table-heading">
+                            <h4 class="title">Your Cart</h4>
+                            <a href="#" class="cart-clear">Clear Shoping Cart</a>
                         </div>
+                        <div class="table-responsive">
+                            <table class="table axil-product-table axil-cart-table mb--40">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="product-remove"></th>
+                                        <th scope="col" class="product-thumbnail">Product</th>
+                                        <th scope="col" class="product-title"></th>
+                                        <th scope="col" class="product-price">Price</th>
+                                        <th scope="col" class="product-quantity">Quantity</th>
+                                        <th scope="col" class="product-subtotal">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cart-item-container">
+                                    <tr id="cart-item-row">
+                                        <td class="product-remove"><a href="#" class="remove-wishlist"><i class="fal fa-times"></i></a></td>
+                                        <td class="product-thumbnail"><a href="#" id="cart-item-a"><img src="./assets/images/product/product-01.png" id="cart-item-image" alt="Product"></a></td>
+                                        <td class="product-title"><a href="#" id="cart-item-title">Title</a></td>
+                                        <td class="product-price" data-title="Price"><span class="currency-symbol">Rs. </span><span id="cart-item-price"></span></td>
+                                        <td class="product-quantity" data-title="Qty">
+                                            <div class="pro-qty">
+                                                <input type="number" class="quantity-input" value="1" id="cart-item-qty">
+                                            </div>
+                                        </td>
+                                        <td class="product-subtotal" data-title="Subtotal"><span class="currency-symbol">Rs. </span><span id="cart-item-subtotal"></span></td>
+                                    </tr>
+                                    
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        
                         <div class="row">
-                            <div class="col-xl-3 col-md-4">
-                                <aside class="axil-dashboard-aside">
-                                    <nav class="axil-dashboard-nav">
-                                        <div class="nav nav-tabs" role="tablist">
-                                            <a class="nav-item nav-link active" data-bs-toggle="tab" href="#nav-account" role="tab" aria-selected="false"><i class="fas fa-user"></i>Account Details</a>
-                                            <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-add-product" role="tab" aria-selected="true"><i class="fas fa-mobile-alt"></i>Products</a>
-                                            <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-product-listing" role="tab" aria-selected="false"><i class="fas fa-list"></i>Product Listing</a>
-                                            <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-orders" role="tab" aria-selected="false"><i class="fas fa-shopping-basket"></i>Orders</a>
-                                            <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-address" role="tab" aria-selected="false"><i class="fas fa-home"></i>Addresses</a>
-                                            <a class="nav-item nav-link" href="#"><i class="fal fa-sign-out"></i>Logout</a>
-                                        </div>
-                                    </nav>
-                                </aside>
-                            </div>
-                            <div class="col-xl-9 col-md-8">
-                                <div class="tab-content">
-
-                                    <div class="tab-pane fade" id="nav-add-product" role="tabpanel">
-                                        <div class="axil-dashboard-overview">
-                                            <div class="welcome-text">Create New Product</div>
-                                            
-                                            
-                                            <form class="account-details-form">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label>Category</label>
-                                                            <select id="categorySelect" onchange="updateModels();">
-                                                                <option value="0">Select</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label>Model</label>
-                                                            <select id="modelSelect">
-                                                                <option value="0">Select</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>                                                        
-                                                    <div class="col-12">
-                                                        <div class="form-group">
-                                                            <label>Title</label>
-                                                            <input id="title" type="text" class="form-control" value="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="form-group">
-                                                            <label>Description</label>
-                                                            <textarea id="description" cols="1" rows="2"></textarea>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label>Storage</label>
-                                                            <select id="storageSelect">
-                                                                <option value="0">Select</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label>Color</label>
-                                                            <select id="colorSelect">
-                                                                <option value="0">Select</option>
-                                                            </select>
-                                                        </div>
-                                                    </div> 
-
-                                                    <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label>Condition</label>
-                                                            <select id="conditionSelect">
-                                                                <option value="0">Select</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label>Price</label>
-                                                            <input id="price" type="text" class="form-control" pattern="^\d+(\.\d{2})?$" placeholder="0.00">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label>Quantity</label>
-                                                            <input id="qty" type="number" class="form-control" min="1" value="1">
-                                                        </div>
-                                                    </div> 
-
-                                                    <div class="col-lg-4">
-                                                        <label>Image 1</label>
-                                                        <input id="image1" class="form-control b2" type="file" accept="image/*">
-                                                    </div>
-
-                                                    <div class="col-lg-4">
-                                                        <label>Image 2</label>
-                                                        <input id="image2" class="form-control b2" type="file" accept="image/*">
-                                                    </div>
-                                                    
-                                                    <div class="col-lg-4">
-                                                        <label>Image 3</label>
-                                                        <input id="image3" class="form-control b2" type="file" accept="image/*">
-                                                    </div>
-
-                                                    <div class="col-12">
-                                                        <div class="form-group mb--0 mt--30 d-grid">
-                                                            <input type="button" onclick="productListing();" class="axil-btn" value="Add Product To Listing">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-
-                                        </div>
+                            <div class="col-xl-5 col-lg-7 offset-xl-7 offset-lg-5">
+                                <div class="axil-order-summery mt--20">
+                                    <h5 class="title mb--20">Order Summary</h5>
+                                    <div class="summery-table-wrap">
+                                        <table class="table summery-table mb--30">
+                                            <tbody>
+                                                <tr class="order-subtotal">
+                                                    <td>Quantities</td>
+                                                    <td class="order-total-amount"><span id="cart-total-qty"></span></td>
+                                                </tr>
+                                                <tr class="order-total">
+                                                    <td>Total</td>
+                                                    <td class="order-total-amount">Rs. <span id="cart-total"></span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-
-                                    <div class="tab-pane fade" id="nav-orders" role="tabpanel">
-                                        <div class="axil-dashboard-order">
-                                            <div class="table-responsive">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">Order</th>
-                                                            <th scope="col">Products</th>
-                                                            <th scope="col">Date</th>
-                                                            <th scope="col">Status</th>
-                                                            <th scope="col">Total</th>
-                                                            <th scope="col">Actions</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <th scope="row">#1234</th>
-                                                            <td>Apple iPhone 15 Pro <br/> Samsung Galaxy Note 20</td>
-                                                            <td>September 02, 2024</td>
-                                                            <td>Delivered</td>
-                                                            <td>Rs 0.00</td>
-                                                            <td><a href="#" class="axil-btn view-btn">View</a></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="nav-product-listing" role="tabpanel">
-                                        <div class="axil-dashboard-order">
-                                            <div class="table-responsive">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">Id</th>
-                                                            <th scope="col">Title</th>
-                                                            <th scope="col">Price</th>
-                                                            <th scope="col">Quantity</th>
-                                                            <th scope="col">Date</th>
-                                                            <th scope="col">Actions</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <th scope="row">#1234</th>
-                                                            <td>Apple iPhone 15 Pro</td>
-                                                            <td>Rs 0.00</td>
-                                                            <td>1</td>
-                                                            <td>September 02, 2024</td>
-                                                            <td><a href="#" class="axil-btn view-btn">View</a></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="nav-address" role="tabpanel">
-                                        <div class="axil-dashboard-address">
-                                            <div class="row row--30">
-                                                <div class="col-lg-12">
-                                                    <div class="address-info mb--40">
-                                                        <div class="addrss-header d-flex align-items-center justify-content-between">
-                                                            <h4 class="title mb-0">Current Shipping Address</h4>
-                                                            <a href="#" class="address-edit"><i class="far fa-edit"></i></a>
-                                                        </div>
-                                                        <ul class="address-details">
-                                                            <li>Name: Name</li>
-                                                            <li>Email:  example@email.com</li>
-                                                            <li>Phone:  +94 77 121 2234</li>
-                                                            <li class="mt--30">No.3B 1/4, Sri Sambuddhathva Jayanthi Mawatha<br>
-                                                                Colombo 00500, Sri Lanka</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade show active" id="nav-account" role="tabpanel">
-                                        <div class="col-lg-9">
-                                            <div class="axil-dashboard-account">
-                                                <form class="account-details-form">
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label>First Name</label>
-                                                                <input type="text" class="form-control" value="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label>Last Name</label>
-                                                                <input type="text" class="form-control" value="">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-12">
-                                                            <h5 class="title">Password Change</h5>
-                                                            <div class="form-group">
-                                                                <label>Current Password</label>
-                                                                <input type="password" class="form-control" value="123456789">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label>New Password</label>
-                                                                <input type="password" class="form-control">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label>Confirm New Password</label>
-                                                                <input type="password" class="form-control">
-                                                            </div>
-                                                            <div class="form-group mb--0 d-grid">
-                                                                <input type="submit" class="axil-btn" value="Save Changes">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <a href="#" class="axil-btn btn-bg-primary checkout-btn">Process to Checkout</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- End My Account Area  -->
+            <!-- End Cart Area  -->
 
         </main>
 
@@ -731,8 +520,9 @@
 
         <!-- Main JS -->
         <script src="assets/js/main.js"></script>
+        <script src="assets/js/cart.js"></script>
         <script src="assets/js/notification.js"></script>
-        <script src="assets/js/my-account.js"></script>
+
     </body>
 
 </html>

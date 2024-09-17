@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entity;
 
 import java.io.Serializable;
@@ -14,7 +10,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author SINGER
+ * @author sande
  */
 @Entity
 @Table(name = "user")
@@ -31,7 +27,7 @@ public class User implements Serializable {
     @Column(name = "last_name", length = 45, nullable = false)
     private String last_name;
 
-    @Column(name = "email", length = 75, nullable = false)
+    @Column(name = "email", length = 45, nullable = false)
     private String email;
 
     @Column(name = "password", length = 45, nullable = false)
