@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entity;
 
 import java.io.Serializable;
@@ -13,29 +9,24 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.ManyToAny;
 
-/**
- *
- * @author SINGER
- */
 @Entity
 @Table(name = "model")
-public class Model implements Serializable {
-
+public class Model implements Serializable{
     @Id
-    @Column(name = "id")
+    @Column(name= "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(name = "name", length = 45, nullable = false)
+    
+    @Column(name="name", length = 45,nullable = false)
     private String name;
-
+    
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name="category_id")
     private Category category;
-
-    public Model() {
-    }
+    
+    public Model(){}
 
     public int getId() {
         return id;
@@ -61,4 +52,6 @@ public class Model implements Serializable {
         this.category = category;
     }
 
+    
+    
 }

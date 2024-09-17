@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package entity;
 
 import java.io.Serializable;
@@ -8,10 +12,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ *
+ * @author sande
+ */
 @Entity
-@Table(name = "category")
-public class Category implements Serializable{
-    
+@Table(name = "product_status")
+public class Product_Status implements Serializable{
     @Id
     @Column(name= "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +27,7 @@ public class Category implements Serializable{
     @Column(name="name", length = 45,nullable = false)
     private String name;
     
-    public Category(){}
+    public Product_Status(){}
 
     public int getId() {
         return id;
@@ -37,5 +44,4 @@ public class Category implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
-    
 }

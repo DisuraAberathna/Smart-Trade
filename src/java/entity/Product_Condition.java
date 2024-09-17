@@ -12,24 +12,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- *
- * @author SINGER
- */
 @Entity
 @Table(name = "product_condition")
-public class ProductCondition implements Serializable {
-
+public class Product_Condition implements Serializable{
     @Id
-    @Column(name = "id")
+    @Column(name= "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(name = "name", length = 45, nullable = false)
+    
+    @Column(name="name", length = 45,nullable = false)
     private String name;
-
-    public ProductCondition() {
-    }
+    
+    public Product_Condition(){}
 
     public int getId() {
         return id;
@@ -46,4 +40,6 @@ public class ProductCondition implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+    
+    
 }
