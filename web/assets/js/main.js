@@ -205,14 +205,14 @@
             $('#slider-range').slider({
                 range: true,
                 min: 0,
-                max: 5000,
-                values: [0, 3000],
+                max: 1000000,
+                values: [0, 1000000],
                 slide: function(event, ui) {
-                    $('#amount').val('$' + ui.values[0] + '  $' + ui.values[1]);
+                    $('#amount').val('Rs.' + ui.values[0] + '  Rs.' + ui.values[1]);
                 }
             });
-            $('#amount').val('$' + $('#slider-range').slider('values', 0) +
-                '  $' + $('#slider-range').slider('values', 1));
+            $('#amount').val('Rs.' + $('#slider-range').slider('values', 0) +
+                '  Rs.' + $('#slider-range').slider('values', 1));
 
         },
 
@@ -509,38 +509,6 @@
                     },
                     {
                         breakpoint: 576,
-                        settings: {
-                            slidesToShow: 1,
-                            slidesToScroll: 1
-                        }
-                    }
-                ]
-            });
-
-            $('.recent-product-activation').slick({
-                infinite: true,
-                slidesToShow: 4,
-                slidesToScroll: 4,
-                arrows: true,
-                dots: false,
-                prevArrow: '<button class="slide-arrow prev-arrow"><i class="fal fa-long-arrow-left"></i></button>',
-                nextArrow: '<button class="slide-arrow next-arrow"><i class="fal fa-long-arrow-right"></i></button>',
-                responsive: [{
-                        breakpoint: 1199,
-                        settings: {
-                            slidesToShow: 3,
-                            slidesToScroll: 3
-                        }
-                    },
-                    {
-                        breakpoint: 991,
-                        settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 2
-                        }
-                    },
-                    {
-                        breakpoint: 479,
                         settings: {
                             slidesToShow: 1,
                             slidesToScroll: 1
