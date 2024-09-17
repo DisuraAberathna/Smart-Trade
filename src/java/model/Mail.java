@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.util.Properties;
@@ -13,14 +9,10 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-/**
- *
- * @author SINGER
- */
 public class Mail {
 
-    private static final String APP_EMAIL = "disura2005@gmail.com";
-    private static final String APP_PASSWORD = "seguaatyhjahbmvq";
+    private static final String APP_EMAIL = "sandeepa@gmail.com";
+    private static final String APP_PASSWORD = "grhkowd";
 
     public static void sendMail(String email, String subject, String content) {
 
@@ -29,6 +21,7 @@ public class Mail {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
@@ -42,7 +35,7 @@ public class Mail {
             message.setFrom(new InternetAddress(Mail.APP_EMAIL));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject(subject);
-            message.setContent(content, "text/html");
+            message.setContent(content,"text/html");
 
             Transport.send(message);
             System.out.println("Email sent successfully!");

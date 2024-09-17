@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.io.IOException;
@@ -15,30 +11,27 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author SINGER
- */
-@WebFilter(urlPatterns = {"/my-account.html", "/index.html"})
-public class FilterSignInCheck implements Filter {
-    
+@WebFilter (urlPatterns = {"/my-account.html"})
+public class FilterSignInCheck implements Filter{
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         
     }
-    
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
         
-        if (req.getSession().getAttribute("user") != null) {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        
+        if(httpServletRequest.getSession().getAttribute("user")!=null){
             chain.doFilter(request, response);
-        } else {
-            resp.sendRedirect("sign-in.html");
+        }else{
+            httpServletResponse.sendRedirect("sign-in.html");
         }
     }
-    
+
     @Override
     public void destroy() {
         
