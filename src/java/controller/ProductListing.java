@@ -1,17 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
 import com.google.gson.Gson;
-import dto.ResponseDTO;
+import com.google.gson.GsonBuilder;
+import dto.Response_DTO;
+import dto.User_DTO;
 import entity.Category;
 import entity.Color;
 import entity.Model;
-import entity.ProductCondition;
+import entity.Product;
+import entity.Product_Condition;
+import entity.Product_Status;
 import entity.Storage;
+import entity.User;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -21,118 +28,160 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import model.HibernateUtil;
 import model.Validations;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
- * @author SINGER
+ * @author sande
  */
 @MultipartConfig
 @WebServlet(name = "ProductListing", urlPatterns = {"/ProductListing"})
 public class ProductListing extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ResponseDTO responseDTO = new ResponseDTO();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        Gson gson = new Gson();
+        Response_DTO response_DTO = new Response_DTO();
 
-        String categoryId = req.getParameter("category_id");
-        String modelId = req.getParameter("model_id");
-        String title = req.getParameter("title");
-        String description = req.getParameter("description");
-        String storageId = req.getParameter("storage_id");
-        String colorId = req.getParameter("color_id");
-        String conditionId = req.getParameter("condition_id");
-        String price = req.getParameter("price");
-        String quantity = req.getParameter("quantity");
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-        Part image1 = req.getPart("img1");
-        Part image2 = req.getPart("img2");
-        Part image3 = req.getPart("img3");
+        String categoryId = request.getParameter("categoryId");
+        String modelId = request.getParameter("modelId");
+        String title = request.getParameter("title");
+        String description = request.getParameter("description");
+        String storageId = request.getParameter("storageId");
+        String colorId = request.getParameter("colorId");
+        String conditionId = request.getParameter("conditionId");
+        String price = request.getParameter("price");
+        String quentity = request.getParameter("quentity");
+
+        Part image1 = request.getPart("image1");
+        Part image2 = request.getPart("image2");
+        Part image3 = request.getPart("image3");
 
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         if (!Validations.isInteger(categoryId)) {
-            responseDTO.setContent("Invalid category");
+            response_DTO.setContent("Invalid Category");
         } else if (!Validations.isInteger(modelId)) {
-            responseDTO.setContent("Invalid model");
-        } else if (title.isEmpty()) {
-            responseDTO.setContent("Please fill Title");
-        } else if (description.isEmpty()) {
-            responseDTO.setContent("Please fill Description");
+            response_DTO.setContent("Invalid Model");
         } else if (!Validations.isInteger(storageId)) {
-            responseDTO.setContent("Invalid storage");
+            response_DTO.setContent("Invalid Storage");
         } else if (!Validations.isInteger(colorId)) {
-            responseDTO.setContent("Invalid color");
+            response_DTO.setContent("Invalid Color");
         } else if (!Validations.isInteger(conditionId)) {
-            responseDTO.setContent("Invalid condition");
+            response_DTO.setContent("Invalid Condition");
+        } else if (title.isEmpty()) {
+            response_DTO.setContent("Please Fill Title");
+        } else if (description.isEmpty()) {
+            response_DTO.setContent("Please Fill Description");
         } else if (price.isEmpty()) {
-            responseDTO.setContent("Please fill Price");
+            response_DTO.setContent("Please Fill Price");
         } else if (!Validations.isDouble(price)) {
-            responseDTO.setContent("Invalid Price");
+            response_DTO.setContent("Invalid price");
         } else if (Double.parseDouble(price) <= 0) {
-            responseDTO.setContent("Price must be greater than 0");
-        } else if (quantity.isEmpty()) {
-            responseDTO.setContent("Please fill Quantity");
-        } else if (!Validations.isInteger(quantity)) {
-            responseDTO.setContent("Invalid Quantity");
-        } else if (Integer.parseInt(quantity) <= 0) {
-            responseDTO.setContent("Quantity must be greater than 0");
+            response_DTO.setContent("Price must be greater than 0");
+        } else if (quentity.isEmpty()) {
+            response_DTO.setContent("Please fill quentity");
+        } else if (!Validations.isInteger(quentity)) {
+            response_DTO.setContent("Invalid Quentity");
+        } else if (Integer.parseInt(quentity) <= 0) {
+            response_DTO.setContent("Quentity must be greater than 0");
         } else if (image1.getSubmittedFileName() == null) {
-            responseDTO.setContent("Please select image 1");
+            response_DTO.setContent("Please upload image 1");
         } else if (image2.getSubmittedFileName() == null) {
-            responseDTO.setContent("Please select image 2");
+            response_DTO.setContent("Please upload image 2");
         } else if (image3.getSubmittedFileName() == null) {
-            responseDTO.setContent("Please select image 3");
+            response_DTO.setContent("Please upload image 3");
         } else {
-            System.out.println("2");
-            Category category = (Category) session.get(Category.class, Integer.valueOf(categoryId));
+            Category category = (Category) session.get(Category.class, Integer.parseInt(categoryId));
 
             if (category == null) {
-                responseDTO.setContent("Please Select a Valid Category");
+                response_DTO.setContent("Please select valid category");
             } else {
 
-                Model model = (Model) session.get(Model.class, Integer.valueOf(modelId));
+                Model model = (Model) session.get(Model.class, Integer.parseInt(modelId));
 
                 if (model == null) {
-                    responseDTO.setContent("Please Select a Valid Model");
+                    response_DTO.setContent("Please select valid model");
                 } else {
-
                     if (model.getCategory().getId() != category.getId()) {
-                        responseDTO.setContent("Please Select a Valid Model");
+                        response_DTO.setContent("Please select a valid model");
                     } else {
-                        Storage storage = (Storage) session.get(Storage.class, Integer.valueOf(storageId));
+                        Storage storage = (Storage) session.get(Storage.class, Integer.parseInt(storageId));
 
                         if (storage == null) {
-                            responseDTO.setContent("Please Select a Valid Storage");
+                            response_DTO.setContent("Please select valid storage");
                         } else {
-                            Color color = (Color) session.get(Color.class, Integer.valueOf(colorId));
+                            Color color = (Color) session.get(Color.class, Integer.parseInt(colorId));
 
                             if (color == null) {
-                                responseDTO.setContent("Please Select a Valid Color");
+                                response_DTO.setContent("Please select valid color");
                             } else {
-                                ProductCondition condition = (ProductCondition) session.get(ProductCondition.class, Integer.valueOf(conditionId));
+                                Product_Condition condition = (Product_Condition) session.get(Product_Condition.class, Integer.parseInt(conditionId));
 
                                 if (condition == null) {
-                                    responseDTO.setContent("Please Select a Valid Condition");
+                                    response_DTO.setContent("Please select valid condition");
                                 } else {
+                                    Product product = new Product();
+                                    product.setColor(color);
+                                    product.setCondition(condition);
+                                    product.setDate_time(new Date());
+                                    product.setDescription(description);
+                                    product.setModel(model);
+                                    product.setPrice(Double.parseDouble(price));
+
+                                    //get active status
+                                    Product_Status product_Status = (Product_Status) session.get(Product_Status.class, 1);
+                                    product.setProduct_Status(product_Status);
+
+                                    product.setQty(Integer.parseInt(quentity));
+                                    product.setStorage(storage);
+                                    product.setTitle(title);
+
+                                    User_DTO user_DTO = (User_DTO) request.getSession().getAttribute("user");
+                                    Criteria criteria1 = session.createCriteria(User.class);
+                                    criteria1.add(Restrictions.eq("email", user_DTO.getEmail()));
+                                    User user = (User) criteria1.uniqueResult();
+                                    product.setUser(user);
+
+                                    int pid = (int) session.save(product);
+                                    session.beginTransaction().commit();
+
+                                    String applicationPath = request.getServletContext().getRealPath("");
+                                    String newApplicationPath = applicationPath.replace("build"+File.separator+"web", "web");
+
+                                    File folder = new File(newApplicationPath + "//product-images//" + pid);
+                                    folder.mkdir();
+
+                                    File file1 = new File(folder, "image1.png");
+                                    InputStream inputStream1 = image1.getInputStream();
+                                    Files.copy(inputStream1, file1.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                                    File file2 = new File(folder, "image2.png");
+                                    InputStream inputStream2 = image2.getInputStream();
+                                    Files.copy(inputStream2, file2.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                                    File file3 = new File(folder, "image3.png");
+                                    InputStream inputStream3 = image3.getInputStream();
+                                    Files.copy(inputStream3, file3.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                                    response_DTO.setSuccess(true);
+                                    response_DTO.setContent("New Product Added");
 
                                 }
                             }
                         }
                     }
-
                 }
             }
-
-//            Criteria criteria1 = session.createCriteria(type);
         }
 
-        resp.setContentType("application/json");
-        resp.getWriter().write(gson.toJson(responseDTO));
-        System.out.println(gson.toJson(responseDTO));
-
+        response.setHeader("content-Type", "application/json");
+        response.getWriter().write(gson.toJson(response_DTO));
         session.close();
 
     }

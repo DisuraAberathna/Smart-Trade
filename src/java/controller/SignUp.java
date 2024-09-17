@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dto.ResponseDTO;
-import dto.UserDTO;
+import dto.Response_DTO;
+import dto.User_DTO;
 import entity.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -24,69 +20,77 @@ import org.hibernate.criterion.Restrictions;
 
 /**
  *
- * @author SINGER
+ * @author sande
  */
 @WebServlet(name = "SignUp", urlPatterns = {"/SignUp"})
 public class SignUp extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ResponseDTO responseDTO = new ResponseDTO();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        Response_DTO response_DTO = new Response_DTO();
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        UserDTO userDTO = gson.fromJson(req.getReader(), UserDTO.class);
 
-        if (userDTO.getFirst_name().isEmpty()) {
-            responseDTO.setContent("Please enter your first name");
-        } else if (userDTO.getLast_name().isEmpty()) {
-            responseDTO.setContent("Please enter your last name");
-        } else if (userDTO.getEmail().isEmpty()) {
-            responseDTO.setContent("Please enter your email");
-        } else if (!Validations.isEmailValid(userDTO.getPassword())) {
-            responseDTO.setContent("Please enter valid email");
-        } else if (userDTO.getPassword().isEmpty()) {
-            responseDTO.setContent("Please enter your password");
-        } else if (!Validations.isPasswordValid(userDTO.getPassword())) {
-            responseDTO.setContent("Please enter valid password");
+        User_DTO user_DTO = gson.fromJson(request.getReader(), User_DTO.class);
+
+        if (user_DTO.getFirst_name().isEmpty()) {
+            response_DTO.setContent("Please Enter Your First Name");
+        } else if (user_DTO.getLast_name().isEmpty()) {
+            response_DTO.setContent("Please Enter Your Last Name");
+        } else if (user_DTO.getEmail().isEmpty()) {
+            response_DTO.setContent("Please Enter Your Email");
+        } else if (!Validations.isEmailValid(user_DTO.getEmail())) {
+            response_DTO.setContent("Please Enter Valid Email");
+        } else if (user_DTO.getPassword().isEmpty()) {
+            response_DTO.setContent("Please Enter Your Password");
+        } else if (!Validations.isPasswordValid(user_DTO.getPassword())) {
+            response_DTO.setContent("Password must include at least one uppercase "
+                    + "letter, number, special character and at least 8 characters long.");
         } else {
+
             Session session = HibernateUtil.getSessionFactory().openSession();
 
-            Criteria criteria = session.createCriteria(User.class);
-            criteria.add(Restrictions.eq("email", userDTO.getEmail()));
+            Criteria criteria1 = session.createCriteria(User.class);
+            criteria1.add(Restrictions.eq("email", user_DTO.getEmail()));
 
-            if (!criteria.list().isEmpty()) {
-                responseDTO.setContent("User with this email already exists");
+            if (!criteria1.list().isEmpty()) {
+                response_DTO.setContent("User already registered with this email");
             } else {
+
+                //generate verification code
                 int code = (int) (Math.random() * 1000000);
 
-                User user = new User();
-                user.setEmail(userDTO.getEmail());
-                user.setFirst_name(userDTO.getFirst_name());
-                user.setLast_name(userDTO.getLast_name());
-                user.setPassword(userDTO.getPassword());
+                final User user = new User();
+                user.setEmail(user_DTO.getEmail());
+                user.setFirst_name(user_DTO.getFirst_name());
+                user.setLast_name(user_DTO.getLast_name());
+                user.setPassword(user_DTO.getPassword());
                 user.setVerification(String.valueOf(code));
 
+                //send verification email
                 Thread sendMailThread = new Thread() {
                     @Override
                     public void run() {
-                        Mail.sendMail(userDTO.getEmail(), "Smart Trade Verification", "<h1> Your Verification Code: " + user.getVerification() + "</h1>");
+                        Mail.sendMail(user.getEmail(), "Smart Trade Verification",
+                        "<h1 style=\"color:#6482AD\">Your Verification Code: " + user.getVerification() + "</h1>");
                     }
+                    
                 };
                 sendMailThread.start();
-
+                
                 session.save(user);
                 session.beginTransaction().commit();
+                response_DTO.setSuccess(true);
+                response_DTO.setContent("Registration Complete. Please verify your account to Sign In");
 
-                req.getSession().setAttribute("email", userDTO.getEmail());
-                responseDTO.setSuccess(true);
-                responseDTO.setContent("Successfully registered. Please check your inbox for verification code!");
             }
-
             session.close();
-        }
 
-        resp.setContentType("application/json");
-        resp.getWriter().write(gson.toJson(responseDTO));
+        }
+        response.setHeader("content-Type","application/json");
+        response.getWriter().write(gson.toJson(response_DTO));
     }
 
 }
